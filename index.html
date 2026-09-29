@@ -5,16 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>記念日ノート｜誕生日・記念日記録アプリ</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E">
-
-<!-- OGP設定（ここから） -->
-<meta property="og:title" content="記念日ノート｜誕生日・記念日記録アプリ">
-<meta property="og:description" content="誕生日や記念日をひとまとめ。自動で年齢や周年を計算する便利ツールです。">
-<meta property="og:url" content="https://zero-kobo.github.io/anniversary/">
-<meta property="og:image" content="https://zero-kobo.github.io/anniversary/ogp.png">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<!-- OGP設定（ここまで） -->
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <script>
 (function(){
   try{
@@ -25,259 +18,188 @@
 })();
 </script>
 <style>
-  * { box-sizing: border-box; }
-  html, body { margin:0; padding:0; }
-
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
   :root{
-    --paper:#EDEAE0; --paper-line:#DBD3C2; --card:#F7F4EC;
-    --ink:#28241F; --ink-soft:#6E6656;
-    --seal:#A73B2E; --seal-soft:#EFDAD1;
-    --brass:#8A6A2F; --brass-soft:#F1E4C4;
-    --shadow:0 10px 28px rgba(40,36,31,.18);
-    --shadow-soft:0 4px 14px rgba(40,36,31,.10);
-    --radius-lg:20px; --radius-sm:8px; --pill:999px;
-    --safe-top:env(safe-area-inset-top,0px);
-    --safe-bottom:env(safe-area-inset-bottom,0px);
+    --bg:#F3F4FA; --surface:#FFFFFF; --line:#E3E5F0; --ink:#1C1F3B; --sub:#6B7090;
+    --bd:#4F5BD5; --bd-soft:#E8EAFB; --an:#D9467A; --an-soft:#FBE6EE;
+    --primary:#1C1F3B; --on-primary:#FFFFFF; --danger:#D64545; --danger-soft:#FCE9E9;
+    --shadow:0 12px 32px rgba(28,31,59,.16); --shadow-soft:0 2px 10px rgba(28,31,59,.06);
+    --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
   }
   html[data-theme="dark"]{
-    --paper:#1C1A17; --paper-line:#332F28; --card:#252220;
-    --ink:#EEE7D8; --ink-soft:#A79D8B;
-    --seal:#DD7A5F; --seal-soft:#3C2A22;
-    --brass:#DAB35B; --brass-soft:#3A2F1A;
-    --shadow:0 10px 32px rgba(0,0,0,.45);
-    --shadow-soft:0 4px 16px rgba(0,0,0,.3);
+    --bg:#12132A; --surface:#1B1D3A; --line:#2B2E52; --ink:#ECEDFA; --sub:#9DA2C6;
+    --bd:#8E98FF; --bd-soft:#26295A; --an:#FF7FA9; --an-soft:#40243A;
+    --primary:#ECEDFA; --on-primary:#12132A; --danger:#FF8A8A; --danger-soft:#3D2430;
+    --shadow:0 12px 32px rgba(0,0,0,.5); --shadow-soft:0 2px 10px rgba(0,0,0,.25);
   }
-
   body{
-    background:var(--paper); color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
-    -webkit-font-smoothing:antialiased;
-    padding-top:var(--safe-top);
-    min-height:100vh;
-    display: flex;
-    flex-direction: column;
+    background:var(--bg); color:var(--ink); min-height:100vh;
+    font-family:"Zen Maru Gothic",-apple-system,BlinkMacSystemFont,"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+    -webkit-font-smoothing:antialiased; padding-top:var(--safe-top); line-height:1.5;
   }
   body.modal-open{ overflow:hidden; }
-  .serif{ font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif; }
-  button{ font-family:inherit; }
+  button,input,select,textarea{ font-family:inherit; }
+  button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{ outline:3px solid var(--bd); outline-offset:2px; }
 
-  /* ---------- Header (cover) ---------- */
-  .cover{
-    position:sticky; top:0; z-index:20; background:var(--paper);
-    padding:22px 20px 14px; border-bottom:1px solid var(--paper-line);
-  }
-  .cover-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-  .cover-title{ display:flex; align-items:center; gap:8px; }
-  .cover-title h1{ font-size:22px; margin:0; font-weight:700; }
-  .cover-mark{ font-size:22px; }
-  .cover-sub{ font-size:12.5px; color:var(--ink-soft); margin:6px 0 0; }
-
+  /* header */
+  .cover{ position:sticky; top:0; z-index:20; background:var(--bg); padding:20px 20px 10px; }
+  .cover-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .cover h1{ margin:0; font-size:26px; font-weight:900; letter-spacing:.02em; }
+  .cover-sub{ margin:2px 0 0; font-size:12.5px; color:var(--sub); font-weight:500; }
   .header-btns{ display:flex; gap:8px; position:relative; flex-shrink:0; }
   .icon-btn{
-    width:38px; height:38px; border-radius:50%; border:1px solid var(--paper-line);
-    background:var(--card); font-size:16px; display:flex; align-items:center; justify-content:center;
-    cursor:pointer; transition:transform .12s ease;
+    width:42px; height:42px; border-radius:14px; border:none; background:var(--surface);
+    box-shadow:var(--shadow-soft); font-size:17px; color:var(--ink); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:transform .12s;
   }
   .icon-btn:active{ transform:scale(.92); }
-
   .menu-panel{
-    position:absolute; top:46px; right:0; background:var(--card); border:1px solid var(--paper-line);
-    border-radius:12px; box-shadow:var(--shadow); padding:6px; display:none; min-width:168px; z-index:30;
+    position:absolute; top:50px; right:0; min-width:170px; padding:6px; z-index:30;
+    background:var(--surface); border-radius:14px; box-shadow:var(--shadow);
+    opacity:0; visibility:hidden; transform:translateY(-6px); transition:.18s;
   }
-  .menu-panel.open{ display:block; }
-  .menu-panel button{
-    width:100%; text-align:left; padding:10px 12px; border:none; background:none; color:var(--ink);
-    font-size:13.5px; border-radius:8px; cursor:pointer;
-  }
-  .menu-panel button:hover{ background:var(--seal-soft); }
+  .menu-panel.open{ opacity:1; visibility:visible; transform:none; }
+  .menu-panel button{ width:100%; text-align:left; padding:11px 12px; border:none; background:none; color:var(--ink); font-size:14px; font-weight:700; border-radius:10px; cursor:pointer; }
+  .menu-panel button:hover{ background:var(--bg); }
 
-  /* ---------- Toolbar ---------- */
-  .toolbar{ padding:14px 20px 6px; display:flex; gap:8px; align-items:center; justify-content:space-between; }
+  /* toolbar */
+  .toolbar{ padding:8px 20px 10px; display:flex; gap:8px; align-items:center; }
   .toolbar select{
-    flex:1; max-width: 130px; padding:8px 10px; border-radius:var(--radius-sm); border:1px solid var(--paper-line);
-    background:var(--card); color:var(--ink); font-size:12px;
+    flex:1; min-width:0; max-width:150px; padding:9px 12px; border-radius:12px; border:none;
+    background:var(--surface); color:var(--ink); font-size:13px; font-weight:700; box-shadow:var(--shadow-soft);
   }
-  .view-toggles { display: flex; gap: 4px; background: var(--paper-line); padding: 4px; border-radius: var(--pill); }
-  .view-toggles button { border: none; background: transparent; padding: 6px 12px; border-radius: var(--pill); font-size: 13px; cursor: pointer; transition:.2s; }
-  .view-toggles button.active { background: var(--card); box-shadow: var(--shadow-soft); }
-  .count-badge{ font-size:12px; color:var(--ink-soft); white-space:nowrap; }
+  .view-toggles{ display:flex; gap:2px; padding:3px; background:var(--line); border-radius:12px; }
+  .view-toggles button{ border:none; background:transparent; padding:6px 11px; border-radius:9px; font-size:14px; cursor:pointer; color:var(--ink); }
+  .view-toggles button.active{ background:var(--surface); box-shadow:var(--shadow-soft); }
+  .count-badge{ margin-left:auto; font-size:12.5px; font-weight:700; color:var(--sub); white-space:nowrap; }
 
-  /* ---------- Main Area ---------- */
-  main{ padding:6px 20px 20px; flex: 1; }
-  .empty-state{ text-align:center; color:var(--ink-soft); padding:70px 20px; line-height:1.9; font-size:14px; }
-  .empty-state .big{ font-size:30px; display:block; margin-bottom:10px; }
+  /* main */
+  main{ padding:4px 20px 150px; }
+  .empty-state{ text-align:center; color:var(--sub); padding:64px 20px; font-size:14px; line-height:1.9; font-weight:500; }
+  .empty-state .big{ font-size:40px; display:block; margin-bottom:12px; }
 
-  /* --- Rich List (リッチ表示) --- */
-  .ledger-row{
-    display:flex; gap:13px; padding:15px 2px; border-bottom:1px solid var(--paper-line); position:relative;
+  /* rich card */
+  .card{
+    display:flex; gap:14px; padding:14px; margin-bottom:12px; background:var(--surface);
+    border-radius:20px; box-shadow:var(--shadow-soft); border:2px solid transparent;
   }
-  .ledger-row:first-child{ border-top:1px solid var(--paper-line); }
-  .ledger-row.pinned{ background:linear-gradient(to right, var(--seal-soft), transparent 55%); }
-  
-  .day-leaf{
-    flex-shrink:0; width:50px; height:56px; border-radius:7px; background:var(--card);
-    border:1px solid var(--paper-line); display:flex; flex-direction:column; align-items:center;
-    justify-content:center; position:relative; overflow:hidden;
+  .card.pinned{ border-color:var(--accent-line, var(--line)); }
+  .t-bd{ --c:var(--bd); --cs:var(--bd-soft); --accent-line:var(--bd); }
+  .t-an{ --c:var(--an); --cs:var(--an-soft); --accent-line:var(--an); }
+  .count{
+    flex-shrink:0; width:70px; border-radius:15px; background:var(--cs); color:var(--c);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 0; align-self:flex-start; min-height:74px;
   }
-  .day-leaf:before{ content:''; position:absolute; top:0; left:0; right:0; height:6px; background:var(--ink-soft); }
-  .ledger-row.pinned .day-leaf:before{ background:var(--seal); }
-  .leaf-month{ font-size:10px; color:var(--ink-soft); margin-top:9px; }
-  .leaf-day{ font-size:19px; font-weight:700; line-height:1.15; margin-top:1px; }
+  .count-num{ font-size:30px; font-weight:900; line-height:1.05; }
+  .count-unit{ font-size:11.5px; font-weight:700; margin-top:2px; }
+  .count.today{ background:var(--c); color:var(--surface); }
+  .count.today .count-num{ font-size:22px; }
+  .card-body{ flex:1; min-width:0; }
+  .card-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:6px; }
+  .card-name{ margin:0; font-size:17px; font-weight:900; line-height:1.35; word-break:break-word; }
+  .pin-toggle{ background:none; border:none; font-size:17px; cursor:pointer; opacity:.28; padding:2px 4px; flex-shrink:0; filter:grayscale(1); }
+  .pin-toggle.active{ opacity:1; filter:none; }
+  .card-date{ margin:3px 0 0; font-size:13px; font-weight:700; color:var(--sub); }
+  .card-date .age{ color:var(--c); margin-left:8px; }
+  .chip{ display:inline-block; margin-top:8px; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:999px; background:var(--bg); color:var(--sub); }
+  .card-note{ margin-top:8px; font-size:13px; color:var(--sub); line-height:1.65; white-space:pre-wrap; font-weight:500; }
+  .card-actions{ margin-top:10px; display:flex; gap:8px; }
+  .card-actions button{ font-size:12px; font-weight:700; padding:6px 14px; border-radius:999px; border:none; background:var(--bg); color:var(--ink); cursor:pointer; }
+  .card-actions button.danger{ background:var(--danger-soft); color:var(--danger); }
 
-  .row-body{ flex:1; min-width:0; }
-  .row-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
-  .row-name{ font-size:15.5px; font-weight:700; display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
-  .row-name .ty-icon{ font-size:15px; }
-  .pin-toggle{ background:none; border:none; font-size:17px; cursor:pointer; opacity:.55; padding:2px 4px; flex-shrink:0; }
-  .pin-toggle.active{ opacity:1; }
+  /* slim */
+  .slim{ display:flex; align-items:center; gap:10px; padding:10px 8px 10px 12px; margin-bottom:8px; background:var(--surface); border-radius:14px; box-shadow:var(--shadow-soft); border-left:5px solid var(--c); }
+  .slim-body{ flex:1; min-width:0; }
+  .slim-name{ font-size:14.5px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .slim-meta{ font-size:12px; font-weight:700; color:var(--sub); }
+  .slim-meta b{ color:var(--c); }
+  .slim-actions{ display:flex; flex-shrink:0; }
+  .slim-actions button{ background:none; border:none; font-size:15px; cursor:pointer; padding:8px; border-radius:50%; }
+  .slim-actions button:hover{ background:var(--bg); }
 
-  .row-countdown{ margin-top:6px; font-size:13.5px; font-weight:600; color:var(--seal); }
-  .row-countdown .sep{ color:var(--ink-soft); font-weight:400; margin:0 3px; }
-  .row-count{ color:var(--brass); font-weight:600; }
+  /* calendar */
+  .calendar-wrap{ display:none; }
+  .calendar-wrap.active{ display:block; }
+  .cal-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .cal-header button{ border:none; background:var(--surface); box-shadow:var(--shadow-soft); padding:8px 14px; border-radius:12px; cursor:pointer; color:var(--ink); font-size:13px; font-weight:700; }
+  .cal-title{ font-size:17px; font-weight:900; }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+  .cal-head-cell{ text-align:center; font-size:11.5px; font-weight:700; color:var(--sub); margin-bottom:2px; }
+  .cal-cell{ aspect-ratio:1; background:var(--surface); border-radius:12px; display:flex; flex-direction:column; align-items:center; padding:5px 2px 4px; cursor:pointer; box-shadow:var(--shadow-soft); }
+  .cal-cell.empty{ background:transparent; box-shadow:none; cursor:default; }
+  .cal-cell.today{ outline:2px solid var(--ink); outline-offset:-2px; }
+  .cal-date{ font-size:13px; font-weight:700; }
+  .cal-dots{ display:flex; gap:3px; margin-top:auto; flex-wrap:wrap; justify-content:center; }
+  .dot{ width:7px; height:7px; border-radius:50%; }
+  .dot.bd{ background:var(--bd); } .dot.an{ background:var(--an); }
 
-  .row-meta{ margin-top:7px; }
-  .chip{
-    display:inline-block; font-size:11.5px; padding:3px 10px; border-radius:var(--pill);
-    background:var(--brass-soft); color:var(--brass); border:1px solid transparent;
-  }
-  .row-note{
-    margin-top:8px; font-size:12.5px; color:var(--ink-soft); white-space:pre-wrap;
-    line-height:1.6; border-left:2px solid var(--paper-line); padding-left:9px;
-  }
-  .row-actions{ margin-top:10px; display:flex; gap:8px; }
-  .row-actions button{
-    font-size:11.5px; padding:5px 13px; border-radius:var(--pill); border:1px solid var(--paper-line);
-    background:var(--card); color:var(--ink-soft); cursor:pointer;
-  }
-  .row-actions button.danger{ color:var(--seal); border-color:var(--seal-soft); }
-
-  /* --- Slim List (スリム表示) --- */
-  .ledger-row-slim {
-    display: flex; gap: 10px; padding: 10px; background: var(--card);
-    border-radius: var(--radius-sm); border: 1px solid var(--paper-line);
-    align-items: center; margin-bottom: 8px; position: relative;
-  }
-  .ledger-row-slim.pinned { border-left: 4px solid var(--seal); }
-  .ledger-row-slim .day-leaf {
-    width: 38px; height: 38px; border-radius: 4px; border: 1px solid var(--paper-line); background: var(--paper);
-  }
-  .ledger-row-slim .leaf-month { font-size: 8px; margin-top: 4px; }
-  .ledger-row-slim .leaf-day { font-size: 14px; font-weight: 700; margin-top: -1px; }
-  .slim-body { flex: 1; min-width: 0; display:flex; flex-direction:column; gap:2px; }
-  .slim-name-row { display: flex; align-items: center; gap: 4px; }
-  .slim-name { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .slim-count { font-size: 11px; color: var(--brass); font-weight:700; }
-  .slim-days { font-size: 11px; color: var(--seal); font-weight: 700; }
-  .slim-actions { display: flex; gap: 8px; flex-shrink: 0; }
-  .slim-actions button { background: none; border: none; font-size: 15px; cursor: pointer; padding: 4px; }
-
-  /* --- Calendar View (カレンダー表示) --- */
-  .calendar-wrap { display: none; }
-  .calendar-wrap.active { display: block; }
-  .cal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px; }
-  .cal-header button { background:var(--card); border:1px solid var(--paper-line); padding:6px 14px; border-radius:var(--pill); cursor:pointer; color:var(--ink); font-weight:700;}
-  .cal-title { font-size: 16px; font-weight: 700; }
-  .cal-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-  .cal-head-cell { text-align:center; font-size:11px; color:var(--ink-soft); margin-bottom:6px; font-weight:700; }
-  .cal-cell { aspect-ratio: 1; background: var(--card); border: 1px solid var(--paper-line); border-radius: 8px; display:flex; flex-direction:column; padding: 4px; cursor:pointer; position:relative; }
-  .cal-cell.empty { background: transparent; border-color: transparent; cursor:default; }
-  .cal-cell.today { border: 1.5px solid var(--seal); background: var(--seal-soft); }
-  .cal-cell .cal-date { font-size: 12px; font-weight: 700; text-align:center; }
-  .cal-cell .cal-icons { font-size: 10px; display:flex; flex-wrap:wrap; justify-content:center; gap: 2px; margin-top: auto; }
-  
-  /* ---------- FAB ---------- */
+  /* fab & ad slot */
   .fab{
-    position:fixed; right:18px; bottom:calc(24px + var(--safe-bottom));
-    width:54px; height:54px; border-radius:50%; border:none;
-    background:var(--seal); color:#fff; font-size:26px; box-shadow:var(--shadow);
-    cursor:pointer; z-index:25; line-height:1; transition:transform .12s ease;
+    position:fixed; right:18px; bottom:calc(22px + var(--safe-bottom)); width:58px; height:58px; border-radius:20px; border:none;
+    background:var(--primary); color:var(--on-primary); font-size:28px; box-shadow:var(--shadow); cursor:pointer; z-index:25;
+    display:flex; align-items:center; justify-content:center; transition:transform .12s;
   }
-  .fab:active{ transform:scale(.93); }
+  .fab:active{ transform:scale(.92); }
+  .ad-slot{ position:fixed; left:0; right:0; bottom:0; z-index:15; padding:8px 14px calc(8px + var(--safe-bottom)); background:var(--bg); }
+  .ad-slot:empty{ display:none; }
+  body:has(.ad-slot:not(:empty)) .fab{ bottom:calc(84px + var(--safe-bottom)); }
 
-  /* ---------- PR Section ---------- */
-  .pr-section {
-    text-align: center;
-    padding: 20px 20px calc(90px + var(--safe-bottom)); /* FABに被らないよう余白を確保 */
-  }
-  .pr-label {
-    font-size: 11px;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
-  }
-  .pr-banner {
-    display: flex;
-    justify-content: center;
-  }
-
-  /* ---------- Modals ---------- */
-  .modal-overlay{
-    position:fixed; inset:0; background:rgba(20,17,13,.5); display:none;
-    align-items:flex-end; justify-content:center; z-index:50;
-  }
-  .modal-overlay.open{ display:flex; }
+  /* modal */
+  .modal-overlay{ position:fixed; inset:0; background:rgba(12,13,30,.55); opacity:0; visibility:hidden; display:flex; align-items:flex-end; justify-content:center; z-index:50; transition:.25s; }
+  .modal-overlay.open{ opacity:1; visibility:visible; }
   .modal-card{
-    background:var(--paper); width:100%; max-width:480px; max-height:90vh; overflow-y:auto;
-    border-radius:var(--radius-lg) var(--radius-lg) 0 0; padding:20px 20px calc(20px + var(--safe-bottom));
-    box-shadow:var(--shadow);
+    background:var(--bg); width:100%; max-width:480px; max-height:90vh; overflow-y:auto;
+    border-radius:26px 26px 0 0; padding:0 20px calc(20px + var(--safe-bottom));
+    transform:translateY(100%); transition:.3s cubic-bezier(.2,.9,.25,1);
   }
+  .modal-overlay.open .modal-card{ transform:none; }
   @media (min-width:520px){
     .modal-overlay{ align-items:center; }
-    .modal-card{ border-radius:var(--radius-lg); }
+    .modal-card{ border-radius:26px; transform:translateY(16px) scale(.97); }
   }
-  .modal-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
-  .modal-head h2{ font-size:17px; margin:0; }
-  .modal-head button{ background:none; border:none; font-size:19px; color:var(--ink-soft); cursor:pointer; padding:4px; }
+  .modal-head{ display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:var(--bg); padding:20px 0 12px; z-index:5; }
+  .modal-head h2{ margin:0; font-size:19px; font-weight:900; }
+  .modal-head button{ width:34px; height:34px; border:none; border-radius:12px; background:var(--surface); color:var(--sub); font-size:14px; cursor:pointer; }
 
-  /* フォーム要素 */
-  .field{ margin-bottom:14px; }
-  .field label{ display:block; font-size:12.5px; color:var(--ink-soft); margin-bottom:6px; }
-  .field input[type=text], .field input[type=number], .field textarea, .field select{
-    width:100%; padding:10px 11px; border-radius:var(--radius-sm); border:1px solid var(--paper-line);
-    background:var(--card); color:var(--ink); font-size:15px; font-family:inherit;
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-size:12.5px; font-weight:700; color:var(--sub); margin-bottom:6px; }
+  .field input[type=text],.field input[type=number],.field textarea,.field select{
+    width:100%; padding:12px 14px; border-radius:14px; border:2px solid transparent; background:var(--surface);
+    color:var(--ink); font-size:16px; box-shadow:var(--shadow-soft);
   }
-  .field textarea{ min-height:70px; resize:vertical; }
-  .row3{ display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:9px; }
-  .segmented{ display:flex; border:1px solid var(--paper-line); border-radius:var(--pill); overflow:hidden; }
+  .field textarea{ min-height:84px; resize:vertical; }
+  .req{ color:var(--an); }
+  .row3{ display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:10px; }
+  .segmented{ display:flex; gap:4px; padding:4px; background:var(--line); border-radius:16px; }
   .segmented input{ display:none; }
-  .segmented label{ flex:1; text-align:center; padding:10px 0; font-size:13.5px; cursor:pointer; color:var(--ink-soft); }
-  .segmented input:checked + label{ background:var(--seal); color:#fff; font-weight:700; }
-
-  .switch-row{ display:flex; align-items:center; justify-content:space-between; padding:8px 2px; }
-  .switch-row > span{ font-size:14px; }
-  .switch{ position:relative; width:44px; height:25px; display:inline-block; }
+  .segmented label{ flex:1; margin:0; text-align:center; padding:10px 0; font-size:14px; font-weight:700; color:var(--sub); border-radius:12px; cursor:pointer; transition:.15s; }
+  .segmented input:checked + label{ background:var(--surface); color:var(--ink); box-shadow:var(--shadow-soft); }
+  .switch-row{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; margin-bottom:14px; border-radius:14px; background:var(--surface); box-shadow:var(--shadow-soft); }
+  .switch-row > span{ font-size:14px; font-weight:700; }
+  .switch{ position:relative; width:48px; height:28px; display:inline-block; margin:0; }
   .switch input{ opacity:0; width:0; height:0; }
-  .switch .track{ position:absolute; inset:0; background:var(--paper-line); border-radius:var(--pill); transition:.2s; }
-  .switch .track:before{ content:''; position:absolute; width:19px; height:19px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; }
-  .switch input:checked + .track{ background:var(--seal); }
-  .switch input:checked + .track:before{ transform:translateX(19px); }
+  .switch .track{ position:absolute; inset:0; background:var(--line); border-radius:999px; transition:.2s; }
+  .switch .track:before{ content:''; position:absolute; width:22px; height:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 4px rgba(0,0,0,.25); }
+  .switch input:checked + .track{ background:var(--bd); }
+  .switch input:checked + .track:before{ transform:translateX(20px); }
+  .btn-primary,.btn-secondary{ width:100%; padding:14px; border:none; border-radius:16px; font-size:15px; font-weight:900; cursor:pointer; }
+  .btn-primary{ background:var(--primary); color:var(--on-primary); }
+  .btn-secondary{ background:transparent; color:var(--sub); margin-top:6px; font-weight:700; }
+  .btn-primary:active,.btn-secondary:active{ transform:scale(.98); }
 
-  .btn-primary{ width:100%; padding:13px; border:none; border-radius:var(--pill); background:var(--seal); color:#fff; font-size:15px; font-weight:700; cursor:pointer; margin-top:6px; }
-  .btn-secondary{ width:100%; padding:11px; border:1px solid var(--paper-line); border-radius:var(--pill); background:none; color:var(--ink-soft); font-size:13.5px; cursor:pointer; margin-top:8px; }
+  /* popup */
+  .popup-overlay{ position:fixed; inset:0; background:rgba(12,13,30,.68); opacity:0; visibility:hidden; display:flex; align-items:center; justify-content:center; z-index:100; padding:22px; transition:.25s; }
+  .popup-overlay.open{ opacity:1; visibility:visible; }
+  .popup-card{ background:var(--surface); border-radius:28px; padding:30px 24px 24px; max-width:340px; width:100%; text-align:center; box-shadow:var(--shadow); transform:scale(.94); transition:.3s cubic-bezier(.2,.9,.3,1.2); }
+  .popup-overlay.open .popup-card{ transform:none; }
+  .popup-seal{ width:60px; height:60px; border-radius:50%; background:var(--bd-soft); display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto; }
+  .popup-label{ font-size:13px; font-weight:700; color:var(--sub); margin-top:14px; }
+  .popup-title{ font-size:22px; font-weight:900; margin:4px 0 12px; line-height:1.4; color:var(--bd); word-break:break-word; }
+  .popup-desc{ font-size:13.5px; color:var(--sub); line-height:1.8; margin-bottom:22px; font-weight:500; }
+  .popup-close-btn{ width:100%; padding:14px; border:none; border-radius:16px; background:var(--primary); color:var(--on-primary); font-size:15px; font-weight:900; cursor:pointer; }
 
-  /* ---------- Day popup (邪魔なやつ) ---------- */
-  .popup-overlay{
-    position:fixed; inset:0; background:rgba(15,12,9,.72); display:none;
-    align-items:center; justify-content:center; z-index:100; padding:22px;
-  }
-  .popup-overlay.open{ display:flex; }
-  .popup-card{
-    background:var(--card); border-radius:22px; padding:30px 24px; max-width:340px; width:100%;
-    text-align:center; box-shadow:var(--shadow); border:1px solid var(--paper-line);
-    animation:popIn .25s ease;
-  }
-  @keyframes popIn{ from{ transform:scale(.92); opacity:0; } to{ transform:scale(1); opacity:1; } }
-  .popup-seal{
-    width:52px; height:52px; border-radius:50%; background:var(--seal-soft); color:var(--seal);
-    display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto;
-  }
-  .popup-label{ font-size:12.5px; color:var(--ink-soft); margin-top:12px; }
-  .popup-title{ font-size:20px; font-weight:700; margin:6px 0 12px; line-height:1.4; }
-  .popup-desc{ font-size:13.5px; color:var(--ink-soft); line-height:1.75; margin-bottom:22px; }
-  .popup-close-btn{
-    width:100%; padding:13px; border:none; border-radius:var(--pill);
-    background:var(--paper-line); color:var(--ink-soft); font-size:14.5px; font-weight:700; cursor:not-allowed;
-  }
-  .popup-close-btn.ready{ background:var(--seal); color:#fff; cursor:pointer; }
+  @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } }
 </style>
 </head>
 <body>
@@ -285,10 +207,7 @@
 <header class="cover">
   <div class="cover-row">
     <div>
-      <div class="cover-title">
-        <span class="cover-mark">🎂</span>
-        <h1 class="serif">記念日ノート</h1>
-      </div>
+      <h1>記念日ノート</h1>
       <p class="cover-sub">誕生日と記念日を、ひとつのノートに。</p>
     </div>
     <div class="header-btns">
@@ -304,7 +223,7 @@
 </header>
 
 <div class="toolbar">
-  <select id="groupFilter"></select>
+  <select id="groupFilter" aria-label="グループ"></select>
   <div class="view-toggles" id="viewToggles">
     <button data-view="rich" class="active" aria-label="リッチ表示">📋</button>
     <button data-view="slim" aria-label="スリム表示">📜</button>
@@ -313,30 +232,24 @@
   <span class="count-badge" id="countBadge"></span>
 </div>
 
-<!-- リストビュー (リッチ・スリム共用) -->
 <main id="entryList"></main>
 
-<!-- カレンダービュー -->
 <main class="calendar-wrap" id="calendarView">
   <div class="cal-header">
     <button id="calPrev">◀ 先月</button>
-    <div class="cal-title" id="calTitle">2026年 9月</div>
+    <div class="cal-title" id="calTitle"></div>
     <button id="calNext">来月 ▶</button>
   </div>
   <div class="cal-grid" id="calGrid"></div>
 </main>
 
-<!-- アフィリエイト枠 -->
-<div class="pr-section">
-  <div class="pr-label">※PR</div>
-  <div class="pr-banner">
-    <script type="text/javascript">rakuten_design="slide";rakuten_affiliateId="1713d060.335a82be.1713d061.5d5faf0d";rakuten_items="ctsmatch";rakuten_genreId="0";rakuten_size="320x48";rakuten_target="_blank";rakuten_theme="gray";rakuten_border="off";rakuten_auto_mode="on";rakuten_genre_title="off";rakuten_recommend="on";rakuten_ts="1790643374623";</script><script type="text/javascript" src="https://xml.affiliate.rakuten.co.jp/widget/js/rakuten_widget.js?20230106"></script>
-  </div>
-</div>
-
 <button class="fab" id="fabAdd" aria-label="新規登録">＋</button>
 
-<!-- Add / Edit modal -->
+<!-- 広告枠：ここにアフィリエイトのコードを貼ってください（空のままなら非表示になります） -->
+<div class="ad-slot" id="adSlot">
+  <script type="text/javascript">rakuten_design="slide";rakuten_affiliateId="1713d060.335a82be.1713d061.5d5faf0d";rakuten_items="ctsmatch";rakuten_genreId="0";rakuten_size="320x48";rakuten_target="_blank";rakuten_theme="gray";rakuten_border="off";rakuten_auto_mode="on";rakuten_genre_title="off";rakuten_recommend="on";rakuten_ts="1790644548723";</script><script type="text/javascript" src="https://xml.affiliate.rakuten.co.jp/widget/js/rakuten_widget.js?20230106"></script>
+</div>
+
 <div class="modal-overlay" id="entryModal">
   <div class="modal-card">
     <div class="modal-head">
@@ -354,40 +267,26 @@
         </div>
       </div>
       <div class="field">
-        <label>名前<span style="color:var(--seal)"> *</span></label>
+        <label for="f_name">名前<span class="req"> *</span></label>
         <input type="text" id="f_name" placeholder="例：田中 花子" required>
       </div>
       <div class="row3">
-        <div class="field">
-          <label>年（任意）</label>
-          <input type="number" id="f_year" placeholder="1990">
-        </div>
-        <div class="field">
-          <label>月</label>
-          <select id="f_month"></select>
-        </div>
-        <div class="field">
-          <label>日</label>
-          <select id="f_day"></select>
-        </div>
+        <div class="field"><label for="f_year">年（任意）</label><input type="number" id="f_year" placeholder="1990"></div>
+        <div class="field"><label for="f_month">月</label><select id="f_month"></select></div>
+        <div class="field"><label for="f_day">日</label><select id="f_day"></select></div>
       </div>
       <div class="field">
-        <label>グループ</label>
+        <label for="f_group">グループ</label>
         <input type="text" id="f_group" list="groupSuggestions" placeholder="例：家族、友人、職場">
-        <datalist id="groupSuggestions">
-          <option value="家族"><option value="友人"><option value="職場"><option value="親戚">
-        </datalist>
+        <datalist id="groupSuggestions"><option value="家族"><option value="友人"><option value="職場"><option value="親戚"></datalist>
       </div>
       <div class="field">
-        <label>備考</label>
+        <label for="f_note">備考</label>
         <textarea id="f_note" placeholder="プレゼント履歴やメモなど"></textarea>
       </div>
       <div class="switch-row">
         <span>📌 ピン留め（トップ表示）</span>
-        <label class="switch">
-          <input type="checkbox" id="f_pinned">
-          <span class="track"></span>
-        </label>
+        <label class="switch"><input type="checkbox" id="f_pinned"><span class="track"></span></label>
       </div>
       <button type="submit" class="btn-primary">保存する</button>
       <button type="button" class="btn-secondary" id="modalCancel">キャンセル</button>
@@ -395,27 +294,33 @@
   </div>
 </div>
 
-<!-- カレンダー用 詳細モーダル -->
 <div class="modal-overlay" id="calDetailModal">
   <div class="modal-card">
     <div class="modal-head">
-      <h2 id="calDetailTitle">9月29日</h2>
-      <button type="button" id="calDetailClose">✕</button>
+      <h2 id="calDetailTitle"></h2>
+      <button type="button" id="calDetailClose" aria-label="閉じる">✕</button>
     </div>
     <div id="calDetailList"></div>
   </div>
 </div>
 
-<!-- Forced day-trivia popup -->
 <div class="popup-overlay" id="dayPopup">
   <div class="popup-card">
     <div class="popup-seal">🎉</div>
     <div class="popup-label">今日は</div>
     <div class="popup-title" id="popupTitle"></div>
-    <div class="popup-desc" id="popupDesc"></div>
-    <button type="button" class="popup-close-btn" id="popupCloseBtn" disabled>
-      <span class="btn-label">閉じる</span> <span class="btn-count">(<span id="popupCountdown">3</span>)</span>
-    </button>
+    <button type="button" class="popup-close-btn" style="margin-top:22px;" id="popupCloseBtn">閉じる</button>
+  </div>
+</div>
+
+<div class="popup-overlay" id="customDialogOverlay" style="z-index:200;">
+  <div class="popup-card" style="padding:24px;">
+    <div class="popup-title" id="customDialogTitle" style="font-size:18px;color:var(--ink);margin-top:0;"></div>
+    <div class="popup-desc" id="customDialogMessage" style="margin-bottom:22px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="btn-secondary" id="customDialogCancel" style="margin-top:0;">キャンセル</button>
+      <button type="button" class="btn-primary" id="customDialogConfirm">OK</button>
+    </div>
   </div>
 </div>
 
@@ -428,7 +333,7 @@
 
   var entries = loadEntries();
   var currentFilter = 'all';
-  var currentView = 'rich'; // rich, slim, calendar
+  var currentView = 'rich';
   var editingId = null;
   var calCurrentDate = new Date();
 
@@ -437,9 +342,8 @@
   var dayPopup = document.getElementById('dayPopup');
   var menuPanel = document.getElementById('menuPanel');
   var calDetailModal = document.getElementById('calDetailModal');
+  var dialogOverlay = document.getElementById('customDialogOverlay');
 
-  /* ---------- 365日分の記念日データ ---------- */
-  // カンマ区切りで各月1日〜末日までの記念日を網羅（うるう年の2/29含む）
   var RAW_DAYS = {
     1:"元日,初夢,瞳,石,囲碁,色,七草,平成スタート,クイズ,110番,鏡開き,スキー,たばこ,タロとジロ,いちご,禁酒,防災とボランティア,118番,のど自慢,玉の輿,料理番組,カレー,アーモンド,ゴールドラッシュ,ホットケーキ,文化財防火,求婚,衣類乾燥機,昭和基地開設,3分間電話,生命保険",
     2:"テレビ放送,ツインテール,節分,西の日,笑顔,抹茶,北方領土,〒マーク,服,ふきのとう,建国記念の日,ペニシリン,苗字,バレンタインデー,春一番,天気図,天使のささやき,嫌煙運動,プロレス,歌舞伎,漱石,猫,富士山,月光仮面,夕刊紙,脱出,冬の恋人,ビスケット,ニンニク(うるう年)",
@@ -455,7 +359,6 @@
     12:"映画,日本人宇宙飛行,カレンダー,血清療法,バミューダトライアングル,音,クリスマスツリー,有機農業,地球,アロエ,胃腸,漢字,ビタミン,南極,観光バス,電話,飛行機,東京駅,日本初飛行,シーラカンス,クロスワード,冬至,テレホンカード,クリスマスイブ,クリスマス,プロ野球誕生,ピーターパン,身体検査,シャンソン,地下鉄,大晦日"
   };
 
-  /* ---------- storage ---------- */
   function loadEntries(){
     try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
   }
@@ -463,262 +366,244 @@
     try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }catch(e){}
   }
   function uid(){ return 'e_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,8); }
+  function escapeHtml(str){ return String(str).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  /* ---------- dialog ---------- */
+  function showDialog(o){
+    return new Promise(function(resolve){
+      document.getElementById('customDialogTitle').textContent = o.title || '確認';
+      document.getElementById('customDialogMessage').textContent = o.message || '';
+      var btnCancel = document.getElementById('customDialogCancel');
+      var btnConfirm = document.getElementById('customDialogConfirm');
+      if(o.type === 'alert'){
+        btnCancel.style.display = 'none';
+        btnConfirm.textContent = 'OK';
+      }else{
+        btnCancel.style.display = 'block';
+        btnConfirm.textContent = o.confirmText || 'はい';
+        btnCancel.textContent = o.cancelText || 'いいえ';
+      }
+      function cleanup(){
+        btnConfirm.removeEventListener('click', ok);
+        btnCancel.removeEventListener('click', ng);
+        dialogOverlay.classList.remove('open');
+        refreshScrollLock();
+      }
+      function ok(){ cleanup(); resolve(true); }
+      function ng(){ cleanup(); resolve(false); }
+      btnConfirm.addEventListener('click', ok);
+      btnCancel.addEventListener('click', ng);
+      dialogOverlay.classList.add('open');
+      refreshScrollLock();
+    });
+  }
 
   /* ---------- date helpers ---------- */
   function todayDateOnly(){ var t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); }
   function isLeap(y){ return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0; }
   function daysInMonth(year, month){ return new Date(year, month, 0).getDate(); }
-
-  function getNextOccurrence(entry, base){
-    base = base || todayDateOnly();
-    var y = base.getFullYear();
-    function buildDate(year){
+  function getNextOccurrence(entry){
+    var base = todayDateOnly();
+    function build(year){
       var d = entry.day;
       if(entry.month === 2 && entry.day === 29 && !isLeap(year)) d = 28;
       return new Date(year, entry.month - 1, d);
     }
-    var candidate = buildDate(y);
-    if(candidate < base) candidate = buildDate(y + 1);
-    return candidate;
+    var c = build(base.getFullYear());
+    if(c < base) c = build(base.getFullYear() + 1);
+    return c;
   }
-  function daysUntil(date, base){
-    base = base || todayDateOnly();
-    return Math.round((date.getTime() - base.getTime()) / 86400000);
-  }
+  function daysUntil(date){ return Math.round((date.getTime() - todayDateOnly().getTime()) / 86400000); }
 
   var MILESTONE_AGES = [18,20,30,40,50,60,70,77,80,88,90,99,100];
   var MILESTONE_ANNIV = [1,3,5,10,15,20,25,30,40,50,60,70];
-  function computeCount(entry, nextDate){
-    if(!entry.year) return null;
-    return nextDate.getFullYear() - entry.year;
-  }
   function isMilestone(entry, count){
     if(count == null) return false;
-    var list = entry.type === 'birthday' ? MILESTONE_AGES : MILESTONE_ANNIV;
-    return list.indexOf(count) !== -1;
+    return (entry.type === 'birthday' ? MILESTONE_AGES : MILESTONE_ANNIV).indexOf(count) !== -1;
   }
-  function escapeHtml(str){
-    return String(str).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+  function enrich(e){
+    var next = getNextOccurrence(e);
+    var count = e.year ? next.getFullYear() - e.year : null;
+    return Object.assign({}, e, { _days: daysUntil(next), _count: count, _milestone: isMilestone(e, count) });
   }
+  function typeClass(e){ return e.type === 'birthday' ? 't-bd' : 't-an'; }
+  function countLabel(e){ return e._count == null ? '' : (e.type === 'birthday' ? e._count + '歳' : e._count + '周年'); }
 
-  /* ---------- rendering components ---------- */
-  // 📋 リッチカード
+  /* ---------- cards ---------- */
   function renderRichCard(e){
-    var typeIcon = e.type === 'birthday' ? '🎂' : '💍';
-    var dayLabel = e._days === 0 ? '🎉 今日です！' : ('あと' + e._days + '日');
-    var countLabel = e._count != null ? (e.type === 'birthday' ? (e._count + '歳') : (e._count + '周年')) : '';
-    var crown = e._milestone ? ' 👑' : '';
-    var groupHtml = e.group ? '<span class="chip">' + escapeHtml(e.group) + '</span>' : '';
-    var noteHtml = e.note ? '<div class="row-note">' + escapeHtml(e.note).replace(/\n/g,'<br>') + '</div>' : '';
-
-    return (
-      '<div class="ledger-row' + (e.pinned ? ' pinned' : '') + '">' +
-        '<div class="day-leaf"><span class="leaf-month">' + e.month + '月</span><span class="leaf-day">' + e.day + '</span></div>' +
-        '<div class="row-body">' +
-          '<div class="row-top">' +
-            '<div class="row-name"><span class="ty-icon">' + typeIcon + '</span>' + escapeHtml(e.name) + crown + '</div>' +
-            '<button type="button" class="pin-toggle' + (e.pinned ? ' active' : '') + '" data-action="pin" data-id="' + e.id + '">📌</button>' +
-          '</div>' +
-          '<div class="row-countdown">' + dayLabel + (countLabel ? '<span class="sep">・</span><span class="row-count">' + countLabel + '</span>' : '') + '</div>' +
-          (groupHtml ? '<div class="row-meta">' + groupHtml + '</div>' : '') + noteHtml +
-          '<div class="row-actions">' +
-            '<button type="button" data-action="edit" data-id="' + e.id + '">編集</button>' +
-            '<button type="button" class="danger" data-action="delete" data-id="' + e.id + '">削除</button>' +
-          '</div>' +
+    var icon = e.type === 'birthday' ? '🎂' : '💍';
+    var today = e._days === 0;
+    var countHtml = today
+      ? '<div class="count today"><span class="count-num">今日</span></div>'
+      : '<div class="count"><span class="count-num">' + e._days + '</span><span class="count-unit">日後</span></div>';
+    var crown = e._milestone ? ' <span title="記念すべき節目です！">👑</span>' : '';
+    var cl = countLabel(e);
+    return '<article class="card ' + typeClass(e) + (e.pinned ? ' pinned' : '') + '">' +
+      countHtml +
+      '<div class="card-body">' +
+        '<div class="card-head">' +
+          '<h3 class="card-name">' + icon + ' ' + escapeHtml(e.name) + crown + '</h3>' +
+          '<button type="button" class="pin-toggle' + (e.pinned ? ' active' : '') + '" data-action="pin" data-id="' + e.id + '" aria-label="ピン留め">📌</button>' +
         '</div>' +
-      '</div>'
-    );
+        '<p class="card-date">' + e.month + '月' + e.day + '日' + (cl ? '<span class="age">' + cl + '</span>' : '') + '</p>' +
+        (e.group ? '<span class="chip">' + escapeHtml(e.group) + '</span>' : '') +
+        (e.note ? '<div class="card-note">' + escapeHtml(e.note) + '</div>' : '') +
+        '<div class="card-actions">' +
+          '<button type="button" data-action="edit" data-id="' + e.id + '">編集</button>' +
+          '<button type="button" class="danger" data-action="delete" data-id="' + e.id + '">削除</button>' +
+        '</div>' +
+      '</div></article>';
   }
 
-  // 📜 スリムカード
   function renderSlimCard(e){
-    var typeIcon = e.type === 'birthday' ? '🎂' : '💍';
-    var countLabel = e._count != null ? (e.type === 'birthday' ? (e._count + '歳') : (e._count + '周年')) : '';
-    var dayLabel = e._days === 0 ? '本日!' : ('あと'+e._days+'日');
-
-    return (
-      '<div class="ledger-row-slim' + (e.pinned ? ' pinned' : '') + '">' +
-        '<div class="day-leaf"><span class="leaf-month">' + e.month + '月</span><span class="leaf-day">' + e.day + '</span></div>' +
-        '<div class="slim-body">' +
-          '<div class="slim-name-row"><span class="ty-icon">' + typeIcon + '</span><span class="slim-name">' + escapeHtml(e.name) + '</span></div>' +
-          '<div>' + (countLabel ? '<span class="slim-count">' + countLabel + '</span> ' : '') + '<span class="slim-days">' + dayLabel + '</span></div>' +
-        '</div>' +
-        '<div class="slim-actions">' +
-          '<button type="button" data-action="edit" data-id="' + e.id + '">✏️</button>' +
-          '<button type="button" class="danger" data-action="delete" data-id="' + e.id + '">🗑️</button>' +
-        '</div>' +
-      '</div>'
-    );
+    var icon = e.type === 'birthday' ? '🎂' : '💍';
+    var cl = countLabel(e);
+    var d = e._days === 0 ? '今日！' : 'あと' + e._days + '日';
+    return '<div class="slim ' + typeClass(e) + '">' +
+      '<div class="slim-body">' +
+        '<div class="slim-name">' + icon + ' ' + escapeHtml(e.name) + (e.pinned ? ' 📌' : '') + '</div>' +
+        '<div class="slim-meta">' + e.month + '月' + e.day + '日 ' + (cl ? cl + ' ' : '') + '<b>' + d + '</b></div>' +
+      '</div>' +
+      '<div class="slim-actions">' +
+        '<button type="button" data-action="edit" data-id="' + e.id + '" aria-label="編集">✏️</button>' +
+        '<button type="button" data-action="delete" data-id="' + e.id + '" aria-label="削除">🗑️</button>' +
+      '</div></div>';
   }
 
-  /* ---------- render main view ---------- */
+  /* ---------- main render ---------- */
   function renderView(){
     var groups = [];
     entries.forEach(function(e){ if(e.group && groups.indexOf(e.group) === -1) groups.push(e.group); });
     groups.sort();
-    
     var sel = document.getElementById('groupFilter');
     var html = '<option value="all">すべてのグループ</option>';
-    for(var i=0;i<groups.length;i++) html += '<option value="' + escapeHtml(groups[i]) + '">' + escapeHtml(groups[i]) + '</option>';
+    groups.forEach(function(g){ html += '<option value="' + escapeHtml(g) + '">' + escapeHtml(g) + '</option>'; });
     sel.innerHTML = html;
     if(groups.indexOf(currentFilter) === -1) currentFilter = 'all';
     sel.value = currentFilter;
 
-    var filtered = entries.filter(e => currentFilter === 'all' || e.group === currentFilter);
-    var enriched = filtered.map(function(e){
-      var next = getNextOccurrence(e);
-      var count = computeCount(e, next);
-      return Object.assign({}, e, { _days: daysUntil(next), _count: count, _milestone: isMilestone(e, count) });
-    }).sort((a,b) => (a.pinned === b.pinned) ? (a._days - b._days) : (a.pinned ? -1 : 1));
+    var list = entries.filter(function(e){ return currentFilter === 'all' || e.group === currentFilter; })
+      .map(enrich)
+      .sort(function(a,b){ return a.pinned === b.pinned ? a._days - b._days : (a.pinned ? -1 : 1); });
 
-    document.getElementById('countBadge').textContent = enriched.length + '件';
-
+    document.getElementById('countBadge').textContent = list.length + '件';
     var listEl = document.getElementById('entryList');
     var calEl = document.getElementById('calendarView');
 
-    if(currentView === 'calendar') {
+    if(currentView === 'calendar'){
       listEl.style.display = 'none';
       calEl.classList.add('active');
       renderCalendar();
-    } else {
+    }else{
       calEl.classList.remove('active');
       listEl.style.display = 'block';
-      if(enriched.length === 0){
-        listEl.innerHTML = '<div class="empty-state"><span class="big">📭</span>まだ登録がありません<br>右下の＋ボタンから追加してみましょう</div>';
-      } else {
-        listEl.innerHTML = enriched.map(e => currentView === 'rich' ? renderRichCard(e) : renderSlimCard(e)).join('');
-      }
+      listEl.innerHTML = list.length === 0
+        ? '<div class="empty-state"><span class="big">📭</span>まだ登録がありません<br>右下の＋ボタンから追加しましょう</div>'
+        : list.map(function(e){ return currentView === 'rich' ? renderRichCard(e) : renderSlimCard(e); }).join('');
     }
   }
 
-  /* ---------- Calendar logic ---------- */
-  function renderCalendar() {
-    var year = calCurrentDate.getFullYear();
-    var month = calCurrentDate.getMonth();
-    document.getElementById('calTitle').textContent = year + "年 " + (month + 1) + "月";
-
+  /* ---------- calendar ---------- */
+  function renderCalendar(){
+    var year = calCurrentDate.getFullYear(), month = calCurrentDate.getMonth();
+    document.getElementById('calTitle').textContent = year + '年 ' + (month + 1) + '月';
     var firstDay = new Date(year, month, 1).getDay();
-    var daysInM = daysInMonth(year, month + 1);
-    var today = new Date();
-    var isCurrentMonth = (today.getFullYear() === year && today.getMonth() === month);
-
-    var html = '<div class="cal-head-cell">日</div><div class="cal-head-cell">月</div><div class="cal-head-cell">火</div><div class="cal-head-cell">水</div><div class="cal-head-cell">木</div><div class="cal-head-cell">金</div><div class="cal-head-cell">土</div>';
-    
-    for(var i=0; i<firstDay; i++) html += '<div class="cal-cell empty"></div>';
-    
-    for(var d=1; d<=daysInM; d++){
-      var isToday = (isCurrentMonth && today.getDate() === d);
-      var cls = 'cal-cell' + (isToday ? ' today' : '');
-      var dayEntries = entries.filter(e => e.month === (month + 1) && e.day === d);
-      var icons = dayEntries.map(e => e.type === 'birthday' ? '🎂' : '💍').join('');
-      
-      html += '<div class="' + cls + '" data-day="' + d + '">' +
-                '<div class="cal-date">' + d + '</div>' +
-                '<div class="cal-icons">' + icons + '</div>' +
-              '</div>';
+    var total = daysInMonth(year, month + 1);
+    var now = new Date();
+    var isCur = now.getFullYear() === year && now.getMonth() === month;
+    var html = ['日','月','火','水','木','金','土'].map(function(w){ return '<div class="cal-head-cell">' + w + '</div>'; }).join('');
+    for(var i=0;i<firstDay;i++) html += '<div class="cal-cell empty"></div>';
+    for(var d=1; d<=total; d++){
+      var dots = entries.filter(function(e){ return e.month === month + 1 && e.day === d; })
+        .map(function(e){ return '<span class="dot ' + (e.type === 'birthday' ? 'bd' : 'an') + '"></span>'; }).join('');
+      html += '<div class="cal-cell' + (isCur && now.getDate() === d ? ' today' : '') + '" data-day="' + d + '">' +
+        '<div class="cal-date">' + d + '</div><div class="cal-dots">' + dots + '</div></div>';
     }
     document.getElementById('calGrid').innerHTML = html;
   }
-
-  document.getElementById('calPrev').addEventListener('click', () => { calCurrentDate.setMonth(calCurrentDate.getMonth() - 1); renderCalendar(); });
-  document.getElementById('calNext').addEventListener('click', () => { calCurrentDate.setMonth(calCurrentDate.getMonth() + 1); renderCalendar(); });
+  document.getElementById('calPrev').addEventListener('click', function(){ calCurrentDate.setDate(1); calCurrentDate.setMonth(calCurrentDate.getMonth() - 1); renderCalendar(); });
+  document.getElementById('calNext').addEventListener('click', function(){ calCurrentDate.setDate(1); calCurrentDate.setMonth(calCurrentDate.getMonth() + 1); renderCalendar(); });
 
   document.getElementById('calGrid').addEventListener('click', function(ev){
     var cell = ev.target.closest('.cal-cell');
     if(!cell || cell.classList.contains('empty')) return;
     var d = parseInt(cell.getAttribute('data-day'), 10);
     var m = calCurrentDate.getMonth() + 1;
-    var dayEntries = entries.filter(e => e.month === m && e.day === d);
-    
-    document.getElementById('calDetailTitle').textContent = m + "月" + d + "日";
-    var list = document.getElementById('calDetailList');
-    if(dayEntries.length === 0){
-      list.innerHTML = '<div style="text-align:center;color:var(--ink-soft);padding:30px 0;">予定はありません</div>';
-    } else {
-      var enriched = dayEntries.map(e => {
-        var next = getNextOccurrence(e);
-        var count = computeCount(e, next);
-        return Object.assign({}, e, { _days: daysUntil(next), _count: count });
-      });
-      list.innerHTML = enriched.map(e => renderSlimCard(e)).join('');
-    }
+    var dayEntries = entries.filter(function(e){ return e.month === m && e.day === d; });
+    document.getElementById('calDetailTitle').textContent = m + '月' + d + '日';
+    document.getElementById('calDetailList').innerHTML = dayEntries.length === 0
+      ? '<div class="empty-state" style="padding:36px 0;">予定はありません</div>'
+      : dayEntries.map(function(e){ return renderSlimCard(enrich(e)); }).join('');
     calDetailModal.classList.add('open');
     refreshScrollLock();
   });
-
-  document.getElementById('calDetailClose').addEventListener('click', () => {
-    calDetailModal.classList.remove('open');
-    refreshScrollLock();
+  document.getElementById('calDetailClose').addEventListener('click', function(){
+    calDetailModal.classList.remove('open'); refreshScrollLock();
   });
 
-  /* ---------- list / global actions ---------- */
-  document.addEventListener('click', function(ev){
+  /* ---------- actions ---------- */
+  document.addEventListener('click', async function(ev){
     var btn = ev.target.closest('button[data-action]');
     if(!btn) return;
-    var id = btn.getAttribute('data-id');
-    var action = btn.getAttribute('data-action');
+    var id = btn.getAttribute('data-id'), action = btn.getAttribute('data-action');
     if(action === 'pin') togglePin(id);
     if(action === 'edit') openEditModal(id);
-    if(action === 'delete') deleteEntry(id);
+    if(action === 'delete') await deleteEntry(id);
   });
-
   function togglePin(id){
-    var e = entries.find(x => x.id === id);
+    var e = entries.find(function(x){ return x.id === id; });
     if(e){ e.pinned = !e.pinned; saveEntries(); renderView(); }
   }
-  function deleteEntry(id){
-    var e = entries.find(x => x.id === id);
+  async function deleteEntry(id){
+    var e = entries.find(function(x){ return x.id === id; });
     if(!e) return;
-    if(confirm('「' + e.name + '」を削除しますか？')){
-      entries = entries.filter(x => x.id !== id);
-      saveEntries();
-      renderView();
-      if (calDetailModal.classList.contains('open')) calDetailModal.classList.remove('open');
+    var ok = await showDialog({ type:'confirm', title:'削除の確認', message:'「' + e.name + '」を削除しますか？', confirmText:'削除する' });
+    if(ok){
+      entries = entries.filter(function(x){ return x.id !== id; });
+      saveEntries(); renderView();
+      if(calDetailModal.classList.contains('open')){ calDetailModal.classList.remove('open'); refreshScrollLock(); }
     }
   }
 
-  /* ---------- View toggles & filter ---------- */
-  document.querySelectorAll('#viewToggles button').forEach(btn => {
-    btn.addEventListener('click', (ev) => {
-      document.querySelectorAll('#viewToggles button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#viewToggles button').forEach(function(btn){
+    btn.addEventListener('click', function(ev){
+      document.querySelectorAll('#viewToggles button').forEach(function(b){ b.classList.remove('active'); });
       ev.currentTarget.classList.add('active');
       currentView = ev.currentTarget.dataset.view;
       renderView();
     });
   });
-  document.getElementById('groupFilter').addEventListener('change', function(ev){
-    currentFilter = ev.target.value; renderView();
-  });
+  document.getElementById('groupFilter').addEventListener('change', function(ev){ currentFilter = ev.target.value; renderView(); });
 
-  /* ---------- modal: add / edit ---------- */
+  /* ---------- form modal ---------- */
   function populateMonthSelect(){
-    var sel = document.getElementById('f_month');
     var html = '';
     for(var m=1;m<=12;m++) html += '<option value="' + m + '">' + m + '月</option>';
-    sel.innerHTML = html;
+    document.getElementById('f_month').innerHTML = html;
   }
   function updateDayOptions(keepValue){
+    var yearStr = document.getElementById('f_year').value;
+    var year = yearStr ? parseInt(yearStr, 10) : 2024;
     var month = parseInt(document.getElementById('f_month').value, 10);
     var daySel = document.getElementById('f_day');
     var prev = keepValue != null ? keepValue : daySel.value;
-    var maxDay = daysInMonth(2024, month); /* うるう年ベース */
-    var html = '';
-    for(var d=1; d<=maxDay; d++) html += '<option value="' + d + '">' + d + '日</option>';
+    var max = daysInMonth(year, month), html = '';
+    for(var d=1; d<=max; d++) html += '<option value="' + d + '">' + d + '日</option>';
     daySel.innerHTML = html;
-    if(prev && parseInt(prev,10) <= maxDay) daySel.value = prev;
+    if(prev && parseInt(prev, 10) <= max) daySel.value = prev;
   }
   document.getElementById('f_month').addEventListener('change', function(){ updateDayOptions(); });
+  document.getElementById('f_year').addEventListener('input', function(){ updateDayOptions(); });
 
   function refreshScrollLock(){
-    var locked = dayPopup.classList.contains('open') || entryModal.classList.contains('open') || calDetailModal.classList.contains('open');
+    var locked = dayPopup.classList.contains('open') || entryModal.classList.contains('open') ||
+                 calDetailModal.classList.contains('open') || dialogOverlay.classList.contains('open');
     document.body.classList.toggle('modal-open', locked);
   }
-
   function openEditModal(id){
     editingId = id;
-    var e = id ? entries.find(x => x.id === id) : null;
+    var e = id ? entries.find(function(x){ return x.id === id; }) : null;
     document.getElementById('modalTitle').textContent = id ? '編集' : '新規登録';
-
     document.getElementById(e && e.type === 'anniversary' ? 'type_anniversary' : 'type_birthday').checked = true;
     document.getElementById('f_name').value = e ? e.name : '';
     document.getElementById('f_year').value = (e && e.year) ? e.year : '';
@@ -727,7 +612,6 @@
     document.getElementById('f_group').value = e ? (e.group || '') : '';
     document.getElementById('f_note').value = e ? (e.note || '') : '';
     document.getElementById('f_pinned').checked = e ? !!e.pinned : false;
-
     entryModal.classList.add('open');
     refreshScrollLock();
     menuPanel.classList.remove('open');
@@ -737,43 +621,40 @@
   document.getElementById('modalClose').addEventListener('click', closeEditModal);
   document.getElementById('modalCancel').addEventListener('click', closeEditModal);
   entryModal.addEventListener('click', function(ev){ if(ev.target === entryModal) closeEditModal(); });
-  calDetailModal.addEventListener('click', function(ev){ if(ev.target === calDetailModal) { calDetailModal.classList.remove('open'); refreshScrollLock(); } });
+  calDetailModal.addEventListener('click', function(ev){ if(ev.target === calDetailModal){ calDetailModal.classList.remove('open'); refreshScrollLock(); } });
 
-  entryForm.addEventListener('submit', function(ev){
+  entryForm.addEventListener('submit', async function(ev){
     ev.preventDefault();
     var name = document.getElementById('f_name').value.trim();
-    if(!name){ alert('名前を入力してください'); return; }
+    if(!name){ await showDialog({ type:'alert', title:'入力エラー', message:'名前を入力してください' }); return; }
     var yearRaw = document.getElementById('f_year').value;
     var data = {
       type: document.querySelector('input[name="type"]:checked').value,
       name: name,
-      year: yearRaw ? parseInt(yearRaw,10) : null,
-      month: parseInt(document.getElementById('f_month').value,10),
-      day: parseInt(document.getElementById('f_day').value,10),
+      year: yearRaw ? parseInt(yearRaw, 10) : null,
+      month: parseInt(document.getElementById('f_month').value, 10),
+      day: parseInt(document.getElementById('f_day').value, 10),
       group: document.getElementById('f_group').value.trim(),
       note: document.getElementById('f_note').value,
       pinned: document.getElementById('f_pinned').checked
     };
     if(editingId){
-      var idx = entries.findIndex(x => x.id === editingId);
+      var idx = entries.findIndex(function(x){ return x.id === editingId; });
       if(idx !== -1){ data.id = entries[idx].id; entries[idx] = data; }
-    } else {
+    }else{
       data.id = uid(); entries.push(data);
     }
     saveEntries(); closeEditModal(); renderView();
-    if (calDetailModal.classList.contains('open')) calDetailModal.classList.remove('open');
+    if(calDetailModal.classList.contains('open')){ calDetailModal.classList.remove('open'); refreshScrollLock(); }
   });
 
   /* ---------- menu: export / import ---------- */
-  document.getElementById('menuBtn').addEventListener('click', function(ev){
-    ev.stopPropagation(); menuPanel.classList.toggle('open');
-  });
+  document.getElementById('menuBtn').addEventListener('click', function(ev){ ev.stopPropagation(); menuPanel.classList.toggle('open'); });
   document.addEventListener('click', function(ev){
     if(!menuPanel.contains(ev.target) && ev.target.id !== 'menuBtn') menuPanel.classList.remove('open');
   });
-
   document.getElementById('exportBtn').addEventListener('click', function(){
-    var blob = new Blob([JSON.stringify(entries, null, 2)], {type:'application/json'});
+    var blob = new Blob([JSON.stringify(entries, null, 2)], { type:'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     var t = new Date();
@@ -782,103 +663,62 @@
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url); menuPanel.classList.remove('open');
   });
-
   document.getElementById('importBtn').addEventListener('click', function(){ document.getElementById('importFile').click(); });
   document.getElementById('importFile').addEventListener('change', function(ev){
-    var file = ev.target.files[0]; if(!file) return;
+    var input = ev.target, file = input.files[0];
+    if(!file) return;
     var reader = new FileReader();
-    reader.onload = function(e){
+    reader.onload = async function(e){
       try{
         var data = JSON.parse(e.target.result);
         if(!Array.isArray(data)) throw new Error('invalid');
-        var valid = data.filter(x => x && typeof x.name === 'string' && x.month && x.day);
-        if(valid.length === 0){ alert('有効なデータが見つかりませんでした'); return; }
-        if(confirm(valid.length + '件のデータを追加しますか？')){
-          valid.forEach(x => {
-            entries.push({
-              id: uid(), type: x.type === 'anniversary' ? 'anniversary' : 'birthday', name: x.name,
-              year: x.year || null, month: x.month, day: x.day, group: x.group || '', note: x.note || '', pinned: !!x.pinned
-            });
+        var valid = data.filter(function(x){ return x && typeof x.name === 'string' && x.month && x.day; });
+        if(valid.length === 0){ await showDialog({ type:'alert', title:'エラー', message:'有効なデータが見つかりませんでした' }); input.value = ''; return; }
+        var ok = await showDialog({ type:'confirm', title:'インポートの確認', message: valid.length + '件のデータを追加しますか？', confirmText:'追加する' });
+        if(ok){
+          valid.forEach(function(x){
+            entries.push({ id:uid(), type: x.type === 'anniversary' ? 'anniversary' : 'birthday', name:x.name,
+              year:x.year || null, month:x.month, day:x.day, group:x.group || '', note:x.note || '', pinned:!!x.pinned });
           });
-          saveEntries(); renderView(); alert('読み込み完了');
+          saveEntries(); renderView();
+          await showDialog({ type:'alert', title:'完了', message:'読み込みが完了しました' });
         }
-      }catch(err){ alert('ファイルの読み込みに失敗しました。'); }
-      ev.target.value = '';
+      }catch(err){
+        await showDialog({ type:'alert', title:'エラー', message:'ファイルの読み込みに失敗しました。' });
+      }
+      input.value = '';
     };
     reader.readAsText(file); menuPanel.classList.remove('open');
   });
 
   /* ---------- theme ---------- */
   function updateThemeIcon(){
-    var theme = document.documentElement.getAttribute('data-theme') || 'light';
-    document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+    document.getElementById('themeToggle').textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
   }
   document.getElementById('themeToggle').addEventListener('click', function(){
-    var cur = document.documentElement.getAttribute('data-theme') || 'light';
-    var next = cur === 'dark' ? 'light' : 'dark';
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
     try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
     updateThemeIcon();
   });
 
-  /* ---------- the annoyingly-well-timed day popup ---------- */
-  function getDayFact(month, day) {
-    var mData = RAW_DAYS[month];
-    if(mData) {
-      var arr = mData.split(',');
-      if(arr[day - 1]) return arr[day - 1];
-    }
-    return "何かの日";
-  }
-
-  function pickTodayFact(){
-    var t = new Date();
-    var fact = getDayFact(t.getMonth() + 1, t.getDate());
-    return { 
-      title: fact + "の日", 
-      desc: "実用性ゼロ工房が365日分無理やり詰め込んだ本日の豆知識です。毎日チェックしても特に良いことは起こりませんが、雑談のネタにはなるかもしれません。" 
-    };
-  }
-
+  /* ---------- today popup ---------- */
   function showDayPopup(){
-    var fact = pickTodayFact();
-    document.getElementById('popupTitle').textContent = '「' + fact.title + '」です！';
-    document.getElementById('popupDesc').textContent = fact.desc;
-
-    var closeBtn = document.getElementById('popupCloseBtn');
-    var countdownEl = document.getElementById('popupCountdown');
-    var countEl = closeBtn.querySelector('.btn-count');
-    closeBtn.disabled = true;
-    closeBtn.classList.remove('ready');
-    countEl.style.display = '';
-    var remain = 3;
-    countdownEl.textContent = remain;
-
-    dayPopup.classList.add('open');
-    refreshScrollLock();
-
-    var timer = setInterval(function(){
-      remain--;
-      if(remain <= 0){
-        clearInterval(timer);
-        closeBtn.disabled = false;
-        closeBtn.classList.add('ready');
-        countEl.style.display = 'none';
-      } else {
-        countdownEl.textContent = remain;
-      }
-    }, 1000);
+    var t = new Date();
+    var arr = (RAW_DAYS[t.getMonth() + 1] || '').split(',');
+    var fact = arr[t.getDate() - 1] || '何か';
+    document.getElementById('popupTitle').textContent = '「' + fact + '」の日です！';
+    setTimeout(function(){ dayPopup.classList.add('open'); refreshScrollLock(); }, 100);
   }
   document.getElementById('popupCloseBtn').addEventListener('click', function(){
-    dayPopup.classList.remove('open');
-    refreshScrollLock();
+    dayPopup.classList.remove('open'); refreshScrollLock();
   });
 
   /* ---------- init ---------- */
   document.addEventListener('DOMContentLoaded', function(){
     populateMonthSelect();
     updateDayOptions(new Date().getDate());
-    document.getElementById('f_year').max = new Date().getFullYear();
+    document.getElementById('f_year').max = new Date().getFullYear() + 5;
     updateThemeIcon();
     renderView();
     showDayPopup();
