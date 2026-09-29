@@ -432,11 +432,25 @@
     if(count == null) return false;
     return (entry.type === 'birthday' ? MILESTONE_AGES : MILESTONE_ANNIV).indexOf(count) !== -1;
   }
+  
+  /* -------------------------------------
+     修正箇所：満年齢（現在の年齢）を計算
+     ------------------------------------- */
   function enrich(e){
     var next = getNextOccurrence(e);
-    var count = e.year ? next.getFullYear() - e.year : null;
+    var count = null;
+    
+    if (e.year) {
+      var base = todayDateOnly();
+      count = base.getFullYear() - e.year;
+      // まだ今年の誕生日を迎えていない場合は -1歳する
+      if (base.getMonth() + 1 < e.month || (base.getMonth() + 1 === e.month && base.getDate() < e.day)) {
+        count--;
+      }
+    }
     return Object.assign({}, e, { _days: daysUntil(next), _count: count, _milestone: isMilestone(e, count) });
   }
+
   function typeClass(e){ return e.type === 'birthday' ? 't-bd' : 't-an'; }
   function countLabel(e){ return e._count == null ? '' : (e.type === 'birthday' ? e._count + '歳' : e._count + '周年'); }
 
