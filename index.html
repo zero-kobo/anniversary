@@ -141,7 +141,7 @@
     display:flex; align-items:center; justify-content:center; transition:transform .12s;
   }
   .fab:active{ transform:scale(.92); }
-  .ad-slot{ position:fixed; left:0; right:0; bottom:0; z-index:15; padding:8px 14px calc(8px + var(--safe-bottom)); background:var(--bg); }
+  .ad-slot{ position:fixed; left:0; right:0; bottom:0; z-index:15; padding:8px 14px calc(8px + var(--safe-bottom)); background:var(--bg); display:flex; justify-content:center; }
   .ad-slot:empty{ display:none; }
   body:has(.ad-slot:not(:empty)) .fab{ bottom:calc(84px + var(--safe-bottom)); }
 
